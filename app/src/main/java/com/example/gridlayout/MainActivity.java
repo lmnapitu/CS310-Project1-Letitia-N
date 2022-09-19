@@ -6,6 +6,7 @@ import androidx.gridlayout.widget.GridLayout;
 import android.content.res.Resources;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.TextView;
@@ -14,7 +15,11 @@ import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
 
-    private static final int COLUMN_COUNT = 2;
+    private static final int COLUMN_COUNT = 8;
+    public static final int BOMB_COUNT = 4;
+
+    private int clock = 0;
+    private boolean running = false;
 
     // save the TextViews of all cells in an array, so later on,
     // when a TextView is clicked, we know which cell it is
@@ -31,33 +36,6 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         cell_tvs = new ArrayList<TextView>();
-
-        // Method (1): add statically created cells
-//        TextView tv00 = (TextView) findViewById(R.id.textView00);
-//        TextView tv01 = (TextView) findViewById(R.id.textView01);
-//        TextView tv10 = (TextView) findViewById(R.id.textView10);
-//        TextView tv11 = (TextView) findViewById(R.id.textView11);
-//
-//        tv00.setTextColor(Color.GRAY);
-//        tv00.setBackgroundColor(Color.GRAY);
-//        tv00.setOnClickListener(this::onClickTV);
-//
-//        tv01.setTextColor(Color.GRAY);
-//        tv01.setBackgroundColor(Color.GRAY);
-//        tv01.setOnClickListener(this::onClickTV);
-//
-//        tv10.setTextColor(Color.GRAY);
-//        tv10.setBackgroundColor(Color.GRAY);
-//        tv10.setOnClickListener(this::onClickTV);
-//
-//        tv11.setTextColor(Color.GRAY);
-//        tv11.setBackgroundColor(Color.GRAY);
-//        tv11.setOnClickListener(this::onClickTV);
-//
-//        cell_tvs.add(tv00);
-//        cell_tvs.add(tv01);
-//        cell_tvs.add(tv10);
-//        cell_tvs.add(tv11);
 
         // Method (2): add four dynamically created cells
         GridLayout grid = (GridLayout) findViewById(R.id.gridLayout01);
@@ -83,26 +61,9 @@ public class MainActivity extends AppCompatActivity {
             }
         }
 
-        // Method (3): add four dynamically created cells with LayoutInflater
-//        LayoutInflater li = LayoutInflater.from(this);
-//        for (int i = 4; i<=5; i++) {
-//            for (int j=0; j<=1; j++) {
-//                TextView tv = (TextView) li.inflate(R.layout.custom_cell_layout, grid, false);
-//                //tv.setText(String.valueOf(i)+String.valueOf(j));
-//                tv.setTextColor(Color.GRAY);
-//                tv.setBackgroundColor(Color.GRAY);
-//                tv.setOnClickListener(this::onClickTV);
-//
-//                GridLayout.LayoutParams lp = (GridLayout.LayoutParams) tv.getLayoutParams();
-//                lp.rowSpec = GridLayout.spec(i);
-//                lp.columnSpec = GridLayout.spec(j);
-//
-//                grid.addView(tv, lp);
-//
-//                cell_tvs.add(tv);
-//            }
-//        }
-
+        //timer stuff
+        running = true;
+        runTimer();
     }
 
     private int findIndexOfCellTextView(TextView tv) {
@@ -118,7 +79,9 @@ public class MainActivity extends AppCompatActivity {
         int n = findIndexOfCellTextView(tv);
         int i = n/COLUMN_COUNT;
         int j = n%COLUMN_COUNT;
+
         tv.setText(String.valueOf(i)+String.valueOf(j));
+
         if (tv.getCurrentTextColor() == Color.GRAY) {
             tv.setTextColor(Color.GREEN);
             tv.setBackgroundColor(Color.parseColor("lime"));
@@ -127,4 +90,25 @@ public class MainActivity extends AppCompatActivity {
             tv.setBackgroundColor(Color.LTGRAY);
         }
     }
+
+    // timer stuff
+    private void runTimer() {
+        final TextView timeView = (TextView) findViewById(R.id.timer);
+        final Handler handler = new Handler();
+
+        handler.post(new Runnable() {
+            @Override
+            public void run() {
+                int seconds = clock;
+                String time = String.valueOf(seconds);
+                timeView.setText(time);
+
+                if (running) {
+                    clock++;
+                }
+                handler.postDelayed(this, 1000);
+            }
+        });
+    }
+
 }
