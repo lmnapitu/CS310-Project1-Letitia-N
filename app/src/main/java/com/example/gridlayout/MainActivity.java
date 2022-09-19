@@ -90,17 +90,17 @@ public class MainActivity extends AppCompatActivity {
         TextView tv = (TextView) view;
         int n = findIndexOfCellTextView(tv);
 
-        TextView mode = (TextView) findViewById(R.id.mymode);
+//        TextView mode = (TextView) findViewById(R.id.mymode);
 
         //testers
-        int count = adjacentBombs(n);
-        tv.setTextColor(Color.GRAY);
-        tv.setBackgroundColor(Color.LTGRAY);
-        if (bombs.contains(n)) {
-            tv.setText(R.string.mine);
-        } else {
-            tv.setText(String.valueOf(count));
-        }
+//        int count = adjacentBombs(n);
+//        tv.setTextColor(Color.GRAY);
+//        tv.setBackgroundColor(Color.LTGRAY);
+//        if (bombs.contains(n)) {
+//            tv.setText(R.string.mine);
+//        } else {
+//            tv.setText(String.valueOf(count));
+//        }
 
 //        ToggleButton toggle = (ToggleButton) findViewById(R.id.mymode);
 //        toggle.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
@@ -120,21 +120,78 @@ public class MainActivity extends AppCompatActivity {
 //        System.out.println(mode.getText());
 //        if (mode.getText().toString().equals(R.string.pick)) {
 //        boolean checkmode = mode.isEnabled();
+
         System.out.println(tstate);
         if (tstate == true) {
             System.out.println("pick");
-//            tv.setTextColor(Color.GRAY);
-//            tv.setBackgroundColor(Color.LTGRAY);
-//            if (bombs.contains(n)) {
-//                tv.setText(R.string.mine); //shows bomb
-//                running = false; //stops timer
-//            } else {
-//                // find adjacent
-//                int count = adjacentBombs(n);
-//                tv.setText(String.valueOf(count));
-//            }
-        } else {
+            tv.setTextColor(Color.GRAY);
+            tv.setBackgroundColor(Color.LTGRAY);
+            if (bombs.contains(n)) {
+                tv.setText(R.string.mine); //shows bomb
+                running = false; //stops timer
+            } else {
+                // find adjacent
+                int count = adjacentBombs(n);
+                tv.setText(String.valueOf(count));
+            }
+        } else { // if on flag mode
             System.out.println("flaggg");
+            if (tv.getCurrentTextColor() == Color.GRAY) {
+                tv.setTextColor(Color.GREEN);
+                tv.setBackgroundColor(Color.parseColor("lime"));
+
+                tv.setText(R.string.flag);
+                TextView timeView = (TextView) findViewById(R.id.flagcount);
+                int count = new Integer(timeView.getText().toString());
+                count--;
+                timeView.setText(String.valueOf(count));
+                System.out.println("new flaggggg");
+
+//                if (tv.getText().toString().equals(getResources().getString(R.string.flag))){
+////                    if (tv.getText().toString().equals(getResources().getString(R.string.flag))) {
+//                    tv.setText("");
+//                    TextView timeView = (TextView) findViewById(R.id.flagcount);
+//                    int count = new Integer(timeView.getText().toString());
+//                    count++;
+//                    timeView.setText(String.valueOf(count));
+//                    System.out.println("removeflaggg");
+//                } else {
+//                    tv.setText(R.string.flag);
+//                    TextView timeView = (TextView) findViewById(R.id.flagcount);
+//                    int count = new Integer(timeView.getText().toString());
+//                    count--;
+//                    timeView.setText(String.valueOf(count));
+//                    System.out.println("new flaggggg");
+//                }
+
+//                else if (tv.getText().equals(getString(R.string.flag))){
+////                    if (tv.getText().toString().equals(getResources().getString(R.string.flag))) {
+//                    tv.setText("");
+//                    TextView timeView = (TextView) findViewById(R.id.flagcount);
+//                    int count = new Integer(timeView.getText().toString());
+//                    count++;
+//                    timeView.setText(String.valueOf(count));
+//                    System.out.println("removeflaggg");
+//                }
+//
+//                if (!tv.getText().equals("")) {
+//                    tv.setText("");
+//                    TextView timeView = (TextView) findViewById(R.id.flagcount);
+//                    int count = new Integer(timeView.getText().toString());
+//                    count++;
+//                    timeView.setText(String.valueOf(count));
+//                    System.out.println("removeflaggg");
+//                }
+            } else if (tv.getCurrentTextColor() == Color.GREEN) {
+                tv.setTextColor(Color.GRAY);
+                tv.setBackgroundColor(Color.GRAY);
+                tv.setText("");
+                TextView timeView = (TextView) findViewById(R.id.flagcount);
+                int count = new Integer(timeView.getText().toString());
+                count++;
+                timeView.setText(String.valueOf(count));
+                System.out.println("removeflaggg");
+            }
         }
 //
 //        if (mode.getText().equals(R.string.flag)) { // how to check if pick/flag mode

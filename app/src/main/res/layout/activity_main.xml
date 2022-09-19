@@ -53,7 +53,7 @@
             android:textSize="32sp" />
 
         <TextView
-            android:id="@+id/textView10"
+            android:id="@+id/flagcount"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="2dp"
@@ -62,7 +62,7 @@
             android:layout_marginBottom="2dp"
             android:width="64dp"
             android:height="64dp"
-            android:text="4"
+            android:text="@string/flag_count"
             android:textAlignment="center"
             android:textSize="32sp" />
 
@@ -95,20 +95,6 @@
             android:textSize="32sp" />
 
     </LinearLayout>
-
-    <!--    <TextView-->
-    <!--        android:id="@+id/textView02"-->
-    <!--        android:layout_width="wrap_content"-->
-    <!--        android:layout_height="wrap_content"-->
-    <!--        android:width="64dp"-->
-    <!--        android:height="64dp"-->
-    <!--        android:text="@string/pick"-->
-    <!--        android:textAlignment="center"-->
-    <!--        android:textSize="32sp"-->
-    <!--        app:layout_constraintBottom_toBottomOf="parent"-->
-    <!--        app:layout_constraintEnd_toEndOf="parent"-->
-    <!--        app:layout_constraintStart_toStartOf="parent"-->
-    <!--        app:layout_constraintTop_toBottomOf="@+id/gridLayout01" />-->
 
     <ToggleButton
         android:id="@+id/mymode"
