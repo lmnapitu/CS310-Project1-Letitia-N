@@ -22,6 +22,7 @@ public class MainActivity extends AppCompatActivity {
     private static final int ROW_COUNT = 10;
     public static final int BOMB_COUNT = 4;
 
+    private int flagcount = 4;
     private int clock = 0;
     private boolean running = false;
     private Set<Integer> bombs = new HashSet();
@@ -83,34 +84,68 @@ public class MainActivity extends AppCompatActivity {
     public void onClickTV(View view){
         TextView tv = (TextView) view;
         int n = findIndexOfCellTextView(tv);
-        int i = n/COLUMN_COUNT;
-        int j = n%COLUMN_COUNT;
 
-        //adjacent
-        tv.setText(String.valueOf(i)+String.valueOf(j));
+        TextView mode = (TextView) findViewById(R.id.mymode);
 
-        if (bombs.contains(n)) {
-            tv.setText(R.string.mine); //shows bomb
-        } else {
-            // find adjacent
-        }
-
-        if (tv.getCurrentTextColor() == Color.GRAY) {
-            tv.setTextColor(Color.GREEN);
-            tv.setBackgroundColor(Color.parseColor("lime"));
-        }else {
+        if (mode.getText().equals(R.string.pick)) {
             tv.setTextColor(Color.GRAY);
             tv.setBackgroundColor(Color.LTGRAY);
+            if (bombs.contains(n)) {
+                tv.setText(R.string.mine); //shows bomb
+            } else {
+                // find adjacent
+                int count = adjacentBombs(n);
+                tv.setText(count);
+            }
         }
+
+        if (mode.getText().equals(R.string.flag)) { // how to check if pick/flag mode
+            tv.setBackgroundColor(Color.parseColor("lime"));
+            if (tv.getCurrentTextColor() == Color.GRAY) {
+                tv.setTextColor(Color.GREEN);
+                tv.setBackgroundColor(Color.parseColor("lime"));
+
+                if (tv.getText().equals(null)) {
+                    tv.setText(R.string.flag);
+                    flagcount--;
+                } else if (tv.getText().equals(R.string.flag)) {
+                    tv.setText(null);
+                    flagcount++;
+                }
+            }
+        }
+
+//        if (bombs.contains(n)) {
+//            tv.setText(R.string.mine); //shows bomb
+//        } else {
+//            // find adjacent
+//            int count = adjacentBombs(n);
+//            tv.setText(count);
+//        }
+
+//        if (tv.getCurrentTextColor() == Color.GRAY) {
+//            tv.setTextColor(Color.GREEN);
+//            tv.setBackgroundColor(Color.parseColor("lime"));
+//        }else {
+//            tv.setTextColor(Color.GRAY);
+//            tv.setBackgroundColor(Color.LTGRAY);
+//        }
     }
 
     private int adjacentBombs (int index) {
         int source = index;
         int count = 0;
 
-        if (bombs.contains(source-1)) count++; //
+        if (bombs.contains(source - 1)) count++; //left of source
+        if (bombs.contains(source + 1)) count++; //right of source
+        if (bombs.contains(source + 8)) count++; //below of source
+        if (bombs.contains(source + 7)) count++; //belowleft of source
+        if (bombs.contains(source + 9)) count++; //belowright of source
+        if (bombs.contains(source - 8)) count++; //top of source
+        if (bombs.contains(source - 9)) count++; //topleft of source
+        if (bombs.contains(source - 7)) count++; //topright of source
 
-        return 0;
+        return count;
     }
 
     // timer stuff

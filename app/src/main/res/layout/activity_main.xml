@@ -95,18 +95,36 @@
 
     </LinearLayout>
 
-    <TextView
-        android:id="@+id/textView02"
+    <!--    <TextView-->
+    <!--        android:id="@+id/textView02"-->
+    <!--        android:layout_width="wrap_content"-->
+    <!--        android:layout_height="wrap_content"-->
+    <!--        android:width="64dp"-->
+    <!--        android:height="64dp"-->
+    <!--        android:text="@string/pick"-->
+    <!--        android:textAlignment="center"-->
+    <!--        android:textSize="32sp"-->
+    <!--        app:layout_constraintBottom_toBottomOf="parent"-->
+    <!--        app:layout_constraintEnd_toEndOf="parent"-->
+    <!--        app:layout_constraintStart_toStartOf="parent"-->
+    <!--        app:layout_constraintTop_toBottomOf="@+id/gridLayout01" />-->
+
+    <ToggleButton
+        android:id="@+id/mymode"
+        style="?android:attr/borderlessButtonStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:width="64dp"
-        android:height="64dp"
-        android:text="@string/pick"
-        android:textAlignment="center"
+        android:background="#FFFFFF"
+        android:textAppearance="@style/TextAppearance.AppCompat.Small"
+        android:textOff="@string/flag"
+        android:textOn="@string/pick"
         android:textSize="32sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/gridLayout01" />
+        app:layout_constraintTop_toBottomOf="@+id/gridLayout01"
+        app:layout_constraintVertical_bias="0.172" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
