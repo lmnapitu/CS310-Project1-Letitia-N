@@ -16,14 +16,14 @@ public class ResultsPage extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_results_page);
 
-//        button = (Button) findViewById(R.id.playAgain);
-//        button.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                Intent intent = new Intent(ResultsPage.this, MainActivity.class);
-//                startActivity(intent);
-//            }
-//        });
+        button = (Button) findViewById(R.id.playAgain);
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(ResultsPage.this, MainActivity.class);
+                startActivity(intent);
+            }
+        });
     }
 
 //    public void openActivityMain() {

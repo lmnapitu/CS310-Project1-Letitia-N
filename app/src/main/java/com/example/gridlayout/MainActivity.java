@@ -31,6 +31,7 @@ public class MainActivity extends AppCompatActivity {
     private int clock = 0;
     private boolean running = false;
     private Set<Integer> bombs = new HashSet();
+    private Set<Integer> revealed = new HashSet();
 
     // save the TextViews of all cells in an array, so later on,
     // when a TextView is clicked, we know which cell it is
@@ -71,6 +72,7 @@ public class MainActivity extends AppCompatActivity {
                 cell_tvs.add(tv);
             }
         }
+
         createBombs();
         ToggleButton myToggleButton = (ToggleButton) findViewById(R.id.mymode); // initiate a toggle button
         myToggleButton.setChecked(true);
@@ -135,11 +137,19 @@ public class MainActivity extends AppCompatActivity {
                 if (bombs.contains(n)) {
                     tv.setText(R.string.mine); //shows bomb
                     running = false; //stops timer
-
-                    //show the mines
+//
+//                    //show the mines
+//                    for (Integer b : bombs) {
+//
+//                        System.out.println(s);
+//                    }
+//
 //                    Iterator<Integer> itr = bombs.iterator();
 //                    System.out.println("Traversing over bombs");
 //                    while(itr.hasNext()){
+//
+//                        TextView tv = (TextView) view;
+//                        int n = findIndexOfCellTextView(tv);
 //                        tv.setText(R.string.mine);
 //                    }
 
@@ -147,8 +157,8 @@ public class MainActivity extends AppCompatActivity {
 //                    handler.postDelayed(new Runnable() {
 //                        public void run() {
 //                            //to go to results page
-//                            Intent intent = new Intent(MainActivity.this, ResultsPage.class);
-//                            startActivity(intent);
+                            Intent intent = new Intent(MainActivity.this, ResultsPage.class);
+                            startActivity(intent);
 //                        }
 //                    }, 5000);
 
@@ -158,6 +168,7 @@ public class MainActivity extends AppCompatActivity {
                     // find adjacent
                     int count = adjacentBombs(n);
                     tv.setText(String.valueOf(count));
+                    revealed.add(n);
                 }
             }
         } else { // if on flag mode

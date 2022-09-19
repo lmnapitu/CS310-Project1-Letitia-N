@@ -7,14 +7,10 @@
     tools:context=".ResultsPage">
 
     <Button
-        android:id="@+id/button"
+        android:id="@+id/playAgain"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentBottom="true"
-        android:layout_marginEnd="145dp"
-        android:layout_marginBottom="186dp"
-        android:text="PLAY AGAIN"
+        android:text="@string/play_again"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -22,66 +18,45 @@
         app:layout_constraintVertical_bias="0.803" />
 
     <TextView
-        android:id="@+id/numOfSeconds"
+        android:id="@+id/noOfSeconds"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentBottom="true"
-        android:layout_marginStart="102dp"
-        android:layout_marginTop="194dp"
-        android:layout_marginEnd="102dp"
-        android:layout_marginBottom="497dp"
-        android:text="Used 0 seconds."
+        android:text="@string/no_seconds"
         android:textSize="30sp"
+        android:visibility="visible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.3"
+        app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.358" />
+        app:layout_constraintVertical_bias="0.338" />
 
     <TextView
-        android:id="@+id/gameResult"
-        android:layout_width="156dp"
+        android:id="@+id/finalResult"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentBottom="true"
-        android:layout_marginStart="129dp"
-        android:layout_marginTop="240dp"
-        android:layout_marginEnd="125dp"
-        android:layout_marginBottom="451dp"
-        android:text="You won."
+        android:text="@string/final_result"
         android:textSize="30sp"
-        app:layout_constraintBottom_toTopOf="@+id/textView4"
+        android:visibility="visible"
+        app:layout_constraintBottom_toTopOf="@+id/playAgain"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.973" />
+        app:layout_constraintTop_toBottomOf="@+id/noOfSeconds"
+        app:layout_constraintVertical_bias="0.046" />
 
     <TextView
         android:id="@+id/finalMessage"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentBottom="true"
-        android:layout_marginStart="143dp"
-        android:layout_marginTop="287dp"
-        android:layout_marginEnd="140dp"
-        android:layout_marginBottom="404dp"
-        android:text="Good job!"
+        android:text="@string/final_message"
         android:textSize="30sp"
-        app:layout_constraintBottom_toTopOf="@+id/button"
+        android:visibility="visible"
+        app:layout_constraintBottom_toTopOf="@+id/playAgain"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.677" />
+        app:layout_constraintTop_toBottomOf="@+id/noOfSeconds"
+        app:layout_constraintVertical_bias="0.259" />
 
 
 </RelativeLayout>
