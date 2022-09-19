@@ -3,6 +3,7 @@ package com.example.gridlayout;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.gridlayout.widget.GridLayout;
 
+import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -122,20 +123,30 @@ public class MainActivity extends AppCompatActivity {
 //        boolean checkmode = mode.isEnabled();
 
         System.out.println(tstate);
-        if (tstate == true) {
+        if (tstate == true) { // on pick mode
             System.out.println("pick");
-            tv.setTextColor(Color.GRAY);
-            tv.setBackgroundColor(Color.LTGRAY);
-            if (bombs.contains(n)) {
-                tv.setText(R.string.mine); //shows bomb
-                running = false; //stops timer
+
+            if (tv.getCurrentTextColor() == Color.GREEN) {
+
             } else {
-                // find adjacent
-                int count = adjacentBombs(n);
-                tv.setText(String.valueOf(count));
+                tv.setTextColor(Color.GRAY);
+                tv.setBackgroundColor(Color.LTGRAY);
+                if (bombs.contains(n)) {
+                    tv.setText(R.string.mine); //shows bomb
+                    running = false; //stops timer
+
+                    //to go to results page
+                    Intent intent = new Intent(MainActivity.this, ResultsPage.class);
+                    startActivity(intent);
+
+                } else {
+                    // find adjacent
+                    int count = adjacentBombs(n);
+                    tv.setText(String.valueOf(count));
+                }
             }
         } else { // if on flag mode
-            System.out.println("flaggg");
+//            System.out.println("flaggg");
             if (tv.getCurrentTextColor() == Color.GRAY) {
                 tv.setTextColor(Color.GREEN);
                 tv.setBackgroundColor(Color.parseColor("lime"));
@@ -145,43 +156,7 @@ public class MainActivity extends AppCompatActivity {
                 int count = new Integer(timeView.getText().toString());
                 count--;
                 timeView.setText(String.valueOf(count));
-                System.out.println("new flaggggg");
-
-//                if (tv.getText().toString().equals(getResources().getString(R.string.flag))){
-////                    if (tv.getText().toString().equals(getResources().getString(R.string.flag))) {
-//                    tv.setText("");
-//                    TextView timeView = (TextView) findViewById(R.id.flagcount);
-//                    int count = new Integer(timeView.getText().toString());
-//                    count++;
-//                    timeView.setText(String.valueOf(count));
-//                    System.out.println("removeflaggg");
-//                } else {
-//                    tv.setText(R.string.flag);
-//                    TextView timeView = (TextView) findViewById(R.id.flagcount);
-//                    int count = new Integer(timeView.getText().toString());
-//                    count--;
-//                    timeView.setText(String.valueOf(count));
-//                    System.out.println("new flaggggg");
-//                }
-
-//                else if (tv.getText().equals(getString(R.string.flag))){
-////                    if (tv.getText().toString().equals(getResources().getString(R.string.flag))) {
-//                    tv.setText("");
-//                    TextView timeView = (TextView) findViewById(R.id.flagcount);
-//                    int count = new Integer(timeView.getText().toString());
-//                    count++;
-//                    timeView.setText(String.valueOf(count));
-//                    System.out.println("removeflaggg");
-//                }
-//
-//                if (!tv.getText().equals("")) {
-//                    tv.setText("");
-//                    TextView timeView = (TextView) findViewById(R.id.flagcount);
-//                    int count = new Integer(timeView.getText().toString());
-//                    count++;
-//                    timeView.setText(String.valueOf(count));
-//                    System.out.println("removeflaggg");
-//                }
+//                System.out.println("new flaggggg");
             } else if (tv.getCurrentTextColor() == Color.GREEN) {
                 tv.setTextColor(Color.GRAY);
                 tv.setBackgroundColor(Color.GRAY);
@@ -190,45 +165,9 @@ public class MainActivity extends AppCompatActivity {
                 int count = new Integer(timeView.getText().toString());
                 count++;
                 timeView.setText(String.valueOf(count));
-                System.out.println("removeflaggg");
+//                System.out.println("removeflaggg");
             }
         }
-//
-//        if (mode.getText().equals(R.string.flag)) { // how to check if pick/flag mode
-//            if (tv.getCurrentTextColor() == Color.GRAY) {
-//                tv.setTextColor(Color.GREEN);
-//                tv.setBackgroundColor(Color.parseColor("lime"));
-//
-//                if (tv.getText().equals(null)) {
-//                    tv.setText(R.string.flag);
-//                    flagcount--;
-//                } else if (tv.getText().equals(R.string.flag)) {
-//                    tv.setText(null);
-//                    flagcount++;
-//                }
-//            }
-//        }
-
-
-
-
-
-
-//        if (bombs.contains(n)) {
-//            tv.setText(R.string.mine); //shows bomb
-//        } else {
-//            // find adjacent
-//            int count = adjacentBombs(n);
-//            tv.setText(count);
-//        }
-
-//        if (tv.getCurrentTextColor() == Color.GRAY) {
-//            tv.setTextColor(Color.GREEN);
-//            tv.setBackgroundColor(Color.parseColor("lime"));
-//        }else {
-//            tv.setTextColor(Color.GRAY);
-//            tv.setBackgroundColor(Color.LTGRAY);
-//        }
     }
 
     private int adjacentBombs (int index) {

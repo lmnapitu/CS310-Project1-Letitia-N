@@ -6,10 +6,10 @@
     android:layout_height="match_parent">
 
     <Button
-        android:id="@+id/button"
+        android:id="@+id/playAgain"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="PLAY AGAIN"
+        android:text="@string/play_again"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -17,54 +17,44 @@
         app:layout_constraintVertical_bias="0.803" />
 
     <TextView
-        android:id="@+id/textView"
+        android:id="@+id/noOfSeconds"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Used"
+        android:text="@string/no_seconds"
         android:textSize="30sp"
+        android:visibility="visible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.3"
+        app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.358" />
+        app:layout_constraintVertical_bias="0.338" />
 
     <TextView
-        android:id="@+id/textView2"
+        android:id="@+id/finalResult"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="seconds."
+        android:text="@string/final_result"
         android:textSize="30sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.508"
-        app:layout_constraintStart_toEndOf="@+id/textView"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.357" />
-
-    <TextView
-        android:id="@+id/textView3"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="You won."
-        android:textSize="30sp"
-        app:layout_constraintBottom_toTopOf="@+id/textView4"
+        android:visibility="visible"
+        app:layout_constraintBottom_toTopOf="@+id/playAgain"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.973" />
+        app:layout_constraintTop_toBottomOf="@+id/noOfSeconds"
+        app:layout_constraintVertical_bias="0.046" />
 
     <TextView
-        android:id="@+id/textView4"
+        android:id="@+id/finalMessage"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Good job!"
+        android:text="@string/final_message"
         android:textSize="30sp"
-        app:layout_constraintBottom_toTopOf="@+id/button"
+        android:visibility="visible"
+        app:layout_constraintBottom_toTopOf="@+id/playAgain"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.677" />
+        app:layout_constraintTop_toBottomOf="@+id/noOfSeconds"
+        app:layout_constraintVertical_bias="0.259" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

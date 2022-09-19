@@ -6,4 +6,8 @@
     <string name="pick">\u26CF</string>
     <string name="default_count">0</string>
     <string name="flag_count">4</string>
+    <string name="play_again">PLAY AGAIN</string>
+    <string name="final_message">Good job!</string>
+    <string name="final_result">You won.</string>
+    <string name="no_seconds">Used 0 seconds.</string>
 </resources>
