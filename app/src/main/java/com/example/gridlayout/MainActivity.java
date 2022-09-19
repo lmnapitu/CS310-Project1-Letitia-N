@@ -17,6 +17,7 @@ import android.widget.ToggleButton;
 import java.sql.SQLOutput;
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.Random;
 import java.util.Set;
 
@@ -135,9 +136,23 @@ public class MainActivity extends AppCompatActivity {
                     tv.setText(R.string.mine); //shows bomb
                     running = false; //stops timer
 
-                    //to go to results page
-                    Intent intent = new Intent(MainActivity.this, ResultsPage.class);
-                    startActivity(intent);
+                    //show the mines
+//                    Iterator<Integer> itr = bombs.iterator();
+//                    System.out.println("Traversing over bombs");
+//                    while(itr.hasNext()){
+//                        tv.setText(R.string.mine);
+//                    }
+
+//                    Handler handler = new Handler();
+//                    handler.postDelayed(new Runnable() {
+//                        public void run() {
+//                            //to go to results page
+//                            Intent intent = new Intent(MainActivity.this, ResultsPage.class);
+//                            startActivity(intent);
+//                        }
+//                    }, 5000);
+
+
 
                 } else {
                     // find adjacent
@@ -174,14 +189,65 @@ public class MainActivity extends AppCompatActivity {
         int source = index;
         int count = 0;
 
-        if (bombs.contains(source - 1)) count++; //left of source
-        if (bombs.contains(source + 1)) count++; //right of source
-        if (bombs.contains(source + 8)) count++; //below of source
-        if (bombs.contains(source + 7)) count++; //belowleft of source
-        if (bombs.contains(source + 9)) count++; //belowright of source
-        if (bombs.contains(source - 8)) count++; //top of source
-        if (bombs.contains(source - 9)) count++; //topleft of source
-        if (bombs.contains(source - 7)) count++; //topright of source
+        if (index == 0) { // top left corner
+            if (bombs.contains(source + 1)) count++; //right of source
+            if (bombs.contains(source + 8)) count++; //below of source
+            if (bombs.contains(source + 9)) count++; //belowright of source
+            return count;
+        } else if (index == 7) { // top right corner
+            if (bombs.contains(source - 1)) count++; //left of source
+            if (bombs.contains(source + 8)) count++; //below of source
+            if (bombs.contains(source + 7)) count++; //belowleft of source
+            return count;
+        } else if (index == 72) { // bottom left corner
+            if (bombs.contains(source - 8)) count++; //top of source
+            if (bombs.contains(source - 7)) count++; //topright of source
+            if (bombs.contains(source + 1)) count++; //right of source
+            return count;
+        } else if (index == 79) { // bottom right corner
+            if (bombs.contains(source - 8)) count++; //top of source
+            if (bombs.contains(source - 9)) count++; //topleft of source
+            if (bombs.contains(source - 1)) count++; //left of source
+            return count;
+        } else if (index < 7) { // top row
+            if (bombs.contains(source - 1)) count++; //left of source
+            if (bombs.contains(source + 1)) count++; //right of source
+            if (bombs.contains(source + 8)) count++; //below of source
+            if (bombs.contains(source + 7)) count++; //belowleft of source
+            if (bombs.contains(source + 9)) count++; //belowright of source
+            return count;
+        } else if (index > 72) { // bottom row
+            if (bombs.contains(source - 1)) count++; //left of source
+            if (bombs.contains(source + 1)) count++; //right of source
+            if (bombs.contains(source - 8)) count++; //top of source
+            if (bombs.contains(source - 9)) count++; //topleft of source
+            if (bombs.contains(source - 7)) count++; //topright of source
+            return count;
+        } else if (index % 8 == 0) { // on the left
+            if (bombs.contains(source + 1)) count++; //right of source
+            if (bombs.contains(source + 8)) count++; //below of source
+            if (bombs.contains(source + 9)) count++; //belowright of source
+            if (bombs.contains(source - 8)) count++; //top of source
+            if (bombs.contains(source - 7)) count++; //topright of source
+            return count;
+        } else if (index % 8 == 7) { // on the right
+            if (bombs.contains(source - 1)) count++; //left of source
+            if (bombs.contains(source + 8)) count++; //below of source
+            if (bombs.contains(source + 7)) count++; //belowleft of source
+            if (bombs.contains(source - 8)) count++; //top of source
+            if (bombs.contains(source - 9)) count++; //topleft of source
+            return count;
+        } else {
+            if (bombs.contains(source - 1)) count++; //left of source
+            if (bombs.contains(source + 1)) count++; //right of source
+            if (bombs.contains(source + 8)) count++; //below of source
+            if (bombs.contains(source + 7)) count++; //belowleft of source
+            if (bombs.contains(source + 9)) count++; //belowright of source
+            if (bombs.contains(source - 8)) count++; //top of source
+            if (bombs.contains(source - 9)) count++; //topleft of source
+            if (bombs.contains(source - 7)) count++; //topright of source
+        }
+
         return count;
     }
 
@@ -210,7 +276,7 @@ public class MainActivity extends AppCompatActivity {
         int currBombs = 0;
         while (currBombs < BOMB_COUNT) {
 
-            int i = new Random().nextInt(79-0+1)+0;
+            int i = new Random().nextInt(79+1);
             if (!bombs.contains(i)) {
                 bombs.add(i);
                 System.out.println(i + " " + currBombs);
