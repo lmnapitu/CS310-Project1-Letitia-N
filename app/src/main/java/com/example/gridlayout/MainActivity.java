@@ -11,6 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.TextView;
 
+import java.sql.SQLOutput;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Random;
@@ -50,7 +51,7 @@ public class MainActivity extends AppCompatActivity {
                 TextView tv = new TextView(this);
                 tv.setHeight( dpToPixel(32) );
                 tv.setWidth( dpToPixel(32) );
-                tv.setTextSize( 32 );//dpToPixel(32) );
+                tv.setTextSize( 20 );//dpToPixel(32) );
                 tv.setTextAlignment(TextView.TEXT_ALIGNMENT_CENTER);
                 tv.setTextColor(Color.GRAY);
                 tv.setBackgroundColor(Color.GRAY);
@@ -87,33 +88,48 @@ public class MainActivity extends AppCompatActivity {
 
         TextView mode = (TextView) findViewById(R.id.mymode);
 
-        if (mode.getText().equals(R.string.pick)) {
-            tv.setTextColor(Color.GRAY);
-            tv.setBackgroundColor(Color.LTGRAY);
-            if (bombs.contains(n)) {
-                tv.setText(R.string.mine); //shows bomb
-            } else {
-                // find adjacent
-                int count = adjacentBombs(n);
-                tv.setText(count);
-            }
+
+        int count = adjacentBombs(n);
+        tv.setTextColor(Color.GRAY);
+        tv.setBackgroundColor(Color.LTGRAY);
+        if (bombs.contains(n)) {
+            tv.setText(R.string.mine);
+        } else {
+            tv.setText(String.valueOf(count));
         }
 
-        if (mode.getText().equals(R.string.flag)) { // how to check if pick/flag mode
-            tv.setBackgroundColor(Color.parseColor("lime"));
-            if (tv.getCurrentTextColor() == Color.GRAY) {
-                tv.setTextColor(Color.GREEN);
-                tv.setBackgroundColor(Color.parseColor("lime"));
+//        if (mode.getText().equals(R.string.pick)) {
+//            tv.setTextColor(Color.GRAY);
+//            tv.setBackgroundColor(Color.LTGRAY);
+//            if (bombs.contains(n)) {
+//                tv.setText(R.string.mine); //shows bomb
+//                running = false; //stops timer
+//            } else {
+//                // find adjacent
+//                int count = adjacentBombs(n);
+//                tv.setText(String.valueOf(count));
+//            }
+//        }
+//
+//        if (mode.getText().equals(R.string.flag)) { // how to check if pick/flag mode
+//            if (tv.getCurrentTextColor() == Color.GRAY) {
+//                tv.setTextColor(Color.GREEN);
+//                tv.setBackgroundColor(Color.parseColor("lime"));
+//
+//                if (tv.getText().equals(null)) {
+//                    tv.setText(R.string.flag);
+//                    flagcount--;
+//                } else if (tv.getText().equals(R.string.flag)) {
+//                    tv.setText(null);
+//                    flagcount++;
+//                }
+//            }
+//        }
 
-                if (tv.getText().equals(null)) {
-                    tv.setText(R.string.flag);
-                    flagcount--;
-                } else if (tv.getText().equals(R.string.flag)) {
-                    tv.setText(null);
-                    flagcount++;
-                }
-            }
-        }
+
+
+
+
 
 //        if (bombs.contains(n)) {
 //            tv.setText(R.string.mine); //shows bomb
@@ -144,7 +160,6 @@ public class MainActivity extends AppCompatActivity {
         if (bombs.contains(source - 8)) count++; //top of source
         if (bombs.contains(source - 9)) count++; //topleft of source
         if (bombs.contains(source - 7)) count++; //topright of source
-
         return count;
     }
 
@@ -171,31 +186,14 @@ public class MainActivity extends AppCompatActivity {
     // bomb stuff
     public void createBombs() {
         int currBombs = 0;
-        int index = (ROW_COUNT*COLUMN_COUNT) + COLUMN_COUNT;
         while (currBombs < BOMB_COUNT) {
 
-            int i = new Random().nextInt(COLUMN_COUNT) - 1;
-            int j = new Random().nextInt(ROW_COUNT) - 1;
-            index = (j*i) + i;
-
-            bombs.add(index);
-            currBombs++;
-
-//            GridLayout mGridView = findViewById(R.id.gridLayout01);
-////            cell = (TextView) mGridView.getChildAt(i);
-////
-////            if (cell != null) {
-////                cell_tvs.set()
-////            }
-////
-////            if (cell.equals("")){
-////
-////
-//////set to bomb
-//////                currBombs++;
-//////                cell_tvs.
-//            }
-
+            int i = new Random().nextInt(79-0+1)+0;
+            if (!bombs.contains(i)) {
+                bombs.add(i);
+                System.out.println(i + " " + currBombs);
+                currBombs++;
+            }
         }
     }
 
