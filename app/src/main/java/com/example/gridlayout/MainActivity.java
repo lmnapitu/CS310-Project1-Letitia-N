@@ -12,14 +12,19 @@ import android.view.View;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Random;
+import java.util.Set;
 
 public class MainActivity extends AppCompatActivity {
 
     private static final int COLUMN_COUNT = 8;
+    private static final int ROW_COUNT = 10;
     public static final int BOMB_COUNT = 4;
 
     private int clock = 0;
     private boolean running = false;
+    private Set<Integer> bombs = new HashSet();
 
     // save the TextViews of all cells in an array, so later on,
     // when a TextView is clicked, we know which cell it is
@@ -60,6 +65,7 @@ public class MainActivity extends AppCompatActivity {
                 cell_tvs.add(tv);
             }
         }
+        createBombs();
 
         //timer stuff
         running = true;
@@ -80,7 +86,14 @@ public class MainActivity extends AppCompatActivity {
         int i = n/COLUMN_COUNT;
         int j = n%COLUMN_COUNT;
 
+        //adjacent
         tv.setText(String.valueOf(i)+String.valueOf(j));
+
+        if (bombs.contains(n)) {
+            tv.setText(R.string.mine); //shows bomb
+        } else {
+            // find adjacent
+        }
 
         if (tv.getCurrentTextColor() == Color.GRAY) {
             tv.setTextColor(Color.GREEN);
@@ -89,6 +102,15 @@ public class MainActivity extends AppCompatActivity {
             tv.setTextColor(Color.GRAY);
             tv.setBackgroundColor(Color.LTGRAY);
         }
+    }
+
+    private int adjacentBombs (int index) {
+        int source = index;
+        int count = 0;
+
+        if (bombs.contains(source-1)) count++; //
+
+        return 0;
     }
 
     // timer stuff
@@ -110,5 +132,39 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }
+
+    // bomb stuff
+    public void createBombs() {
+        int currBombs = 0;
+        int index = (ROW_COUNT*COLUMN_COUNT) + COLUMN_COUNT;
+        while (currBombs < BOMB_COUNT) {
+
+            int i = new Random().nextInt(COLUMN_COUNT) - 1;
+            int j = new Random().nextInt(ROW_COUNT) - 1;
+            index = (j*i) + i;
+
+            bombs.add(index);
+            currBombs++;
+
+//            GridLayout mGridView = findViewById(R.id.gridLayout01);
+////            cell = (TextView) mGridView.getChildAt(i);
+////
+////            if (cell != null) {
+////                cell_tvs.set()
+////            }
+////
+////            if (cell.equals("")){
+////
+////
+//////set to bomb
+//////                currBombs++;
+//////                cell_tvs.
+//            }
+
+        }
+    }
+
+
+
 
 }
