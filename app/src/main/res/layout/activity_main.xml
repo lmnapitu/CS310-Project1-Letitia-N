@@ -116,6 +116,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:background="#FFFFFF"
+        android:checked="true"
         android:textAppearance="@style/TextAppearance.AppCompat.Small"
         android:textOff="@string/flag"
         android:textOn="@string/pick"

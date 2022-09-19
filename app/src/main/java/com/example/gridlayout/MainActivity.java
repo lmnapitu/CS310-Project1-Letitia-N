@@ -9,7 +9,9 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.CompoundButton;
 import android.widget.TextView;
+import android.widget.ToggleButton;
 
 import java.sql.SQLOutput;
 import java.util.ArrayList;
@@ -68,6 +70,8 @@ public class MainActivity extends AppCompatActivity {
             }
         }
         createBombs();
+        ToggleButton myToggleButton = (ToggleButton) findViewById(R.id.mymode); // initiate a toggle button
+        myToggleButton.setChecked(true);
 
         //timer stuff
         running = true;
@@ -88,7 +92,7 @@ public class MainActivity extends AppCompatActivity {
 
         TextView mode = (TextView) findViewById(R.id.mymode);
 
-
+        //testers
         int count = adjacentBombs(n);
         tv.setTextColor(Color.GRAY);
         tv.setBackgroundColor(Color.LTGRAY);
@@ -98,7 +102,27 @@ public class MainActivity extends AppCompatActivity {
             tv.setText(String.valueOf(count));
         }
 
-//        if (mode.getText().equals(R.string.pick)) {
+//        ToggleButton toggle = (ToggleButton) findViewById(R.id.mymode);
+//        toggle.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+//            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+//                if (isChecked) {
+//                    // The toggle is enabled
+//                } else {
+//                    // The toggle is disabled
+//                }
+//            }
+//        });
+
+        ToggleButton toggle = (ToggleButton) findViewById(R.id.mymode); // initiate a toggle button
+        Boolean tstate = toggle.isChecked();
+
+        //actual
+//        System.out.println(mode.getText());
+//        if (mode.getText().toString().equals(R.string.pick)) {
+//        boolean checkmode = mode.isEnabled();
+        System.out.println(tstate);
+        if (tstate == true) {
+            System.out.println("pick");
 //            tv.setTextColor(Color.GRAY);
 //            tv.setBackgroundColor(Color.LTGRAY);
 //            if (bombs.contains(n)) {
@@ -109,7 +133,9 @@ public class MainActivity extends AppCompatActivity {
 //                int count = adjacentBombs(n);
 //                tv.setText(String.valueOf(count));
 //            }
-//        }
+        } else {
+            System.out.println("flaggg");
+        }
 //
 //        if (mode.getText().equals(R.string.flag)) { // how to check if pick/flag mode
 //            if (tv.getCurrentTextColor() == Color.GRAY) {
