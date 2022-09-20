@@ -18,20 +18,24 @@ import java.sql.SQLOutput;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.Queue;
 import java.util.Random;
 import java.util.Set;
 
 public class MainActivity extends AppCompatActivity {
 
-    private static final int COLUMN_COUNT = 8;
-    private static final int ROW_COUNT = 10;
+    private static final int NODES = 80;
     public static final int BOMB_COUNT = 4;
 
     private int flagcount = 4;
     private int clock = 0;
+    private int result = 0;
     private boolean running = false;
     private Set<Integer> bombs = new HashSet();
     private Set<Integer> revealed = new HashSet();
+    private Queue<Integer> queue = new LinkedList<Integer>();;
+    private boolean done = false;
 
     // save the TextViews of all cells in an array, so later on,
     // when a TextView is clicked, we know which cell it is
@@ -91,41 +95,21 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void onClickTV(View view){
+
+        if (done == true) {
+            Intent intent = new Intent(MainActivity.this, ResultsPage.class);
+            intent.putExtra("clock", clock);
+            intent.putExtra("win", result);
+            startActivity(intent);
+        }
+
         TextView tv = (TextView) view;
         int n = findIndexOfCellTextView(tv);
-
-//        TextView mode = (TextView) findViewById(R.id.mymode);
-
-        //testers
-//        int count = adjacentBombs(n);
-//        tv.setTextColor(Color.GRAY);
-//        tv.setBackgroundColor(Color.LTGRAY);
-//        if (bombs.contains(n)) {
-//            tv.setText(R.string.mine);
-//        } else {
-//            tv.setText(String.valueOf(count));
-//        }
-
-//        ToggleButton toggle = (ToggleButton) findViewById(R.id.mymode);
-//        toggle.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-//            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-//                if (isChecked) {
-//                    // The toggle is enabled
-//                } else {
-//                    // The toggle is disabled
-//                }
-//            }
-//        });
 
         ToggleButton toggle = (ToggleButton) findViewById(R.id.mymode); // initiate a toggle button
         Boolean tstate = toggle.isChecked();
 
-        //actual
-//        System.out.println(mode.getText());
-//        if (mode.getText().toString().equals(R.string.pick)) {
-//        boolean checkmode = mode.isEnabled();
-
-        System.out.println(tstate);
+//        System.out.println(tstate);
         if (tstate == true) { // on pick mode
             System.out.println("pick");
 
@@ -137,30 +121,19 @@ public class MainActivity extends AppCompatActivity {
                 if (bombs.contains(n)) {
                     tv.setText(R.string.mine); //shows bomb
                     running = false; //stops timer
-//
-//                    //show the mines
-//                    for (Integer b : bombs) {
-//
-//                        System.out.println(s);
-//                    }
-//
-//                    Iterator<Integer> itr = bombs.iterator();
-//                    System.out.println("Traversing over bombs");
-//                    while(itr.hasNext()){
-//
-//                        TextView tv = (TextView) view;
-//                        int n = findIndexOfCellTextView(tv);
-//                        tv.setText(R.string.mine);
-//                    }
+                    done = true;
+                    result = 0; // zero is lose
 
-//                    Handler handler = new Handler();
-//                    handler.postDelayed(new Runnable() {
-//                        public void run() {
-//                            //to go to results page
-                            Intent intent = new Intent(MainActivity.this, ResultsPage.class);
-                            startActivity(intent);
-//                        }
-//                    }, 5000);
+                    //reveal bombs
+                    for (int i=0; i<cell_tvs.size(); i++) {
+                        if (bombs.contains(i)) {
+                            cell_tvs.get(i).setText(R.string.mine);
+                        }
+                    }
+
+                    // add if next click
+//                    Intent intent = new Intent(MainActivity.this, ResultsPage.class);
+//                    startActivity(intent);
 
 
 
@@ -169,6 +142,12 @@ public class MainActivity extends AppCompatActivity {
                     int count = adjacentBombs(n);
                     tv.setText(String.valueOf(count));
                     revealed.add(n);
+
+                    if (revealed.size() == 76) { // how to win
+                        running = false;
+                        result = 1; // zero is lose
+                        done = true;
+                    }
                 }
             }
         } else { // if on flag mode
@@ -295,6 +274,43 @@ public class MainActivity extends AppCompatActivity {
             }
         }
     }
+
+
+
+
+//    void addEdge(int v,int w) {
+//        adj[v].add(w);
+//    }
+
+//    void BFS(int index) {
+//
+//        if (cell_tvs.)
+//
+//        boolean nodes[] = new boolean[NODES];       //initialize boolean array for holding the data
+//        int a = 0;
+//
+//        nodes[index] = true;
+//        queue.add(index);                   //root node is added to the top of the queue
+//
+//        while (queue.size() != 0) {
+//            index = queue.poll();             //remove the top element of the queue
+//            System.out.print(index + " ");           //print the top element of the queue
+//
+//            for (int i = 0; i < 8; i++) {
+//
+//            }
+//
+//            for (int i = 0; i < adj[n].size(); i++)  {//iterate through the linked list and push all neighbors into queue
+//
+//                a = adj[n].get(i);
+//                if (!nodes[a])                    //only insert nodes into queue if they have not been explored already
+//                {
+//                    nodes[a] = true;
+//                    queue.add(a);
+//                }
+//            }
+//        }
+//    }
 
 
 
