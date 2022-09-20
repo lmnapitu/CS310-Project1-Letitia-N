@@ -22,6 +22,7 @@ import java.util.LinkedList;
 import java.util.Queue;
 import java.util.Random;
 import java.util.Set;
+import java.util.Stack;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -34,7 +35,8 @@ public class MainActivity extends AppCompatActivity {
     private boolean running = false;
     private Set<Integer> bombs = new HashSet();
     private Set<Integer> revealed = new HashSet();
-    private Queue<Integer> queue = new LinkedList<Integer>();;
+//    private Queue<Integer> queue = new LinkedList<Integer>();
+    Stack<Integer> stack = new Stack<Integer>();
     private boolean done = false;
 
     // save the TextViews of all cells in an array, so later on,
@@ -63,7 +65,7 @@ public class MainActivity extends AppCompatActivity {
                 tv.setTextSize( 20 );//dpToPixel(32) );
                 tv.setTextAlignment(TextView.TEXT_ALIGNMENT_CENTER);
                 tv.setTextColor(Color.GRAY);
-                tv.setBackgroundColor(Color.GRAY);
+                tv.setBackgroundColor(Color.parseColor("lime"));
                 tv.setOnClickListener(this::onClickTV);
 
                 GridLayout.LayoutParams lp = new GridLayout.LayoutParams();
@@ -113,9 +115,6 @@ public class MainActivity extends AppCompatActivity {
         if (tstate == true) { // on pick mode
             System.out.println("pick");
 
-            if (tv.getCurrentTextColor() == Color.GREEN) {
-
-            } else {
                 tv.setTextColor(Color.GRAY);
                 tv.setBackgroundColor(Color.LTGRAY);
                 if (bombs.contains(n)) {
@@ -130,47 +129,43 @@ public class MainActivity extends AppCompatActivity {
                             cell_tvs.get(i).setText(R.string.mine);
                         }
                     }
-
-                    // add if next click
-//                    Intent intent = new Intent(MainActivity.this, ResultsPage.class);
-//                    startActivity(intent);
-
-
-
                 } else {
                     // find adjacent
                     int count = adjacentBombs(n);
-                    tv.setText(String.valueOf(count));
+                    if (count == 0) {
+                        tv.setText("");
+                    } else {
+                        tv.setText(String.valueOf(count));
+                    }
                     revealed.add(n);
-
                     if (revealed.size() == 76) { // how to win
                         running = false;
                         result = 1; // zero is lose
                         done = true;
                     }
                 }
-            }
+
         } else { // if on flag mode
 //            System.out.println("flaggg");
-            if (tv.getCurrentTextColor() == Color.GRAY) {
-                tv.setTextColor(Color.GREEN);
-                tv.setBackgroundColor(Color.parseColor("lime"));
+            if (!revealed.contains(n)) {
+                if (tv.getCurrentTextColor() == Color.GRAY) {
+                    tv.setTextColor(Color.GREEN);
+                    tv.setText(R.string.flag);
 
-                tv.setText(R.string.flag);
-                TextView timeView = (TextView) findViewById(R.id.flagcount);
-                int count = new Integer(timeView.getText().toString());
-                count--;
-                timeView.setText(String.valueOf(count));
-//                System.out.println("new flaggggg");
-            } else if (tv.getCurrentTextColor() == Color.GREEN) {
-                tv.setTextColor(Color.GRAY);
-                tv.setBackgroundColor(Color.GRAY);
-                tv.setText("");
-                TextView timeView = (TextView) findViewById(R.id.flagcount);
-                int count = new Integer(timeView.getText().toString());
-                count++;
-                timeView.setText(String.valueOf(count));
-//                System.out.println("removeflaggg");
+                    TextView timeView = (TextView) findViewById(R.id.flagcount);
+                    int count = new Integer(timeView.getText().toString());
+                    count--;
+                    timeView.setText(String.valueOf(count));
+
+                } else if (tv.getCurrentTextColor() == Color.GREEN) {
+                    tv.setTextColor(Color.GRAY);
+                    tv.setText("");
+
+                    TextView timeView = (TextView) findViewById(R.id.flagcount);
+                    int count = new Integer(timeView.getText().toString());
+                    count++;
+                    timeView.setText(String.valueOf(count));
+                }
             }
         }
     }
@@ -275,7 +270,76 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-
+//    public void DFS (int index) {
+//        int store = 0;
+//        if (index == 0) { // top left corner
+//            store = adjacentBombs(index + 1);
+//            if (store == 0) {
+//                stack.add(index + 1);
+//                cell_tvs.get(index+1).setTextColor(Color.GRAY);
+//                cell_tvs.get(index+1).setBackgroundColor(Color.LTGRAY);
+//                cell_tvs.get(index+1).setText("");
+//            }
+//
+//            int count = adjacentBombs(n);
+//            if (count == 0) {
+//                tv.setText("");
+//            } else {
+//                tv.setText(String.valueOf(count));
+//            }
+//            revealed.add(n);
+//
+//
+//            if (adjacentBombs(index + 1))
+//            if (bombs.contains(source + 1)) count++; //right of source
+//            if (bombs.contains(source + 8)) count++; //below of source
+//            if (bombs.contains(source + 9)) count++; //belowright of source
+//            return count;
+//        } else if (index == 7) { // top right corner
+//            if (bombs.contains(source - 1)) count++; //left of source
+//            if (bombs.contains(source + 8)) count++; //below of source
+//            if (bombs.contains(source + 7)) count++; //belowleft of source
+//            return count;
+//        } else if (index == 72) { // bottom left corner
+//            if (bombs.contains(source - 8)) count++; //top of source
+//            if (bombs.contains(source - 7)) count++; //topright of source
+//            if (bombs.contains(source + 1)) count++; //right of source
+//            return count;
+//        } else if (index == 79) { // bottom right corner
+//            if (bombs.contains(source - 8)) count++; //top of source
+//            if (bombs.contains(source - 9)) count++; //topleft of source
+//            if (bombs.contains(source - 1)) count++; //left of source
+//            return count;
+//        } else if (index < 7) { // top row
+//            if (bombs.contains(source - 1)) count++; //left of source
+//            if (bombs.contains(source + 1)) count++; //right of source
+//            if (bombs.contains(source + 8)) count++; //below of source
+//            if (bombs.contains(source + 7)) count++; //belowleft of source
+//            if (bombs.contains(source + 9)) count++; //belowright of source
+//            return count;
+//        } else if (index > 72) { // bottom row
+//            if (bombs.contains(source - 1)) count++; //left of source
+//            if (bombs.contains(source + 1)) count++; //right of source
+//            if (bombs.contains(source - 8)) count++; //top of source
+//            if (bombs.contains(source - 9)) count++; //topleft of source
+//            if (bombs.contains(source - 7)) count++; //topright of source
+//            return count;
+//        } else if (index % 8 == 0) { // on the left
+//            if (bombs.contains(source + 1)) count++; //right of source
+//            if (bombs.contains(source + 8)) count++; //below of source
+//            if (bombs.contains(source + 9)) count++; //belowright of source
+//            if (bombs.contains(source - 8)) count++; //top of source
+//            if (bombs.contains(source - 7)) count++; //topright of source
+//            return count;
+//        } else if (index % 8 == 7) { // on the right
+//            if (bombs.contains(source - 1)) count++; //left of source
+//            if (bombs.contains(source + 8)) count++; //below of source
+//            if (bombs.contains(source + 7)) count++; //belowleft of source
+//            if (bombs.contains(source - 8)) count++; //top of source
+//            if (bombs.contains(source - 9)) count++; //topleft of source
+//            return count;
+//        }
+//    }
 
 
 //    void addEdge(int v,int w) {
