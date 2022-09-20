@@ -133,15 +133,30 @@ public class MainActivity extends AppCompatActivity {
                     // find adjacent
                     int count = adjacentBombs(n);
                     if (count == 0) {
+//                        DFS(n);
+                        cell_tvs.get(n).setTextColor(Color.GRAY);
+                        cell_tvs.get(n).setBackgroundColor(Color.LTGRAY);
                         tv.setText("");
+                        revealed.add(n);
                     } else {
                         tv.setText(String.valueOf(count));
+                        cell_tvs.get(n).setTextColor(Color.GRAY);
+                        cell_tvs.get(n).setBackgroundColor(Color.LTGRAY);
+                        revealed.add(n);
                     }
                     revealed.add(n);
+
                     if (revealed.size() == 76) { // how to win
                         running = false;
                         result = 1; // zero is lose
                         done = true;
+
+                        //reveal bombs
+                        for (int i=0; i<cell_tvs.size(); i++) {
+                            if (bombs.contains(i)) {
+                                cell_tvs.get(i).setText(R.string.mine);
+                            }
+                        }
                     }
                 }
 
@@ -270,76 +285,448 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-//    public void DFS (int index) {
-//        int store = 0;
-//        if (index == 0) { // top left corner
-//            store = adjacentBombs(index + 1);
-//            if (store == 0) {
-//                stack.add(index + 1);
-//                cell_tvs.get(index+1).setTextColor(Color.GRAY);
-//                cell_tvs.get(index+1).setBackgroundColor(Color.LTGRAY);
-//                cell_tvs.get(index+1).setText("");
-//            }
-//
-//            int count = adjacentBombs(n);
-//            if (count == 0) {
-//                tv.setText("");
-//            } else {
-//                tv.setText(String.valueOf(count));
-//            }
-//            revealed.add(n);
-//
-//
-//            if (adjacentBombs(index + 1))
-//            if (bombs.contains(source + 1)) count++; //right of source
-//            if (bombs.contains(source + 8)) count++; //below of source
-//            if (bombs.contains(source + 9)) count++; //belowright of source
-//            return count;
-//        } else if (index == 7) { // top right corner
-//            if (bombs.contains(source - 1)) count++; //left of source
-//            if (bombs.contains(source + 8)) count++; //below of source
-//            if (bombs.contains(source + 7)) count++; //belowleft of source
-//            return count;
-//        } else if (index == 72) { // bottom left corner
-//            if (bombs.contains(source - 8)) count++; //top of source
-//            if (bombs.contains(source - 7)) count++; //topright of source
-//            if (bombs.contains(source + 1)) count++; //right of source
-//            return count;
-//        } else if (index == 79) { // bottom right corner
-//            if (bombs.contains(source - 8)) count++; //top of source
-//            if (bombs.contains(source - 9)) count++; //topleft of source
-//            if (bombs.contains(source - 1)) count++; //left of source
-//            return count;
-//        } else if (index < 7) { // top row
-//            if (bombs.contains(source - 1)) count++; //left of source
-//            if (bombs.contains(source + 1)) count++; //right of source
-//            if (bombs.contains(source + 8)) count++; //below of source
-//            if (bombs.contains(source + 7)) count++; //belowleft of source
-//            if (bombs.contains(source + 9)) count++; //belowright of source
-//            return count;
-//        } else if (index > 72) { // bottom row
-//            if (bombs.contains(source - 1)) count++; //left of source
-//            if (bombs.contains(source + 1)) count++; //right of source
-//            if (bombs.contains(source - 8)) count++; //top of source
-//            if (bombs.contains(source - 9)) count++; //topleft of source
-//            if (bombs.contains(source - 7)) count++; //topright of source
-//            return count;
-//        } else if (index % 8 == 0) { // on the left
-//            if (bombs.contains(source + 1)) count++; //right of source
-//            if (bombs.contains(source + 8)) count++; //below of source
-//            if (bombs.contains(source + 9)) count++; //belowright of source
-//            if (bombs.contains(source - 8)) count++; //top of source
-//            if (bombs.contains(source - 7)) count++; //topright of source
-//            return count;
-//        } else if (index % 8 == 7) { // on the right
-//            if (bombs.contains(source - 1)) count++; //left of source
-//            if (bombs.contains(source + 8)) count++; //below of source
-//            if (bombs.contains(source + 7)) count++; //belowleft of source
-//            if (bombs.contains(source - 8)) count++; //top of source
-//            if (bombs.contains(source - 9)) count++; //topleft of source
-//            return count;
-//        }
-//    }
+    private void changesetting (int n) {
+        cell_tvs.get(n).setTextColor(Color.GRAY);
+        cell_tvs.get(n).setBackgroundColor(Color.LTGRAY);
+        revealed.add(n);
+    }
+
+    public void DFS (int index) {
+        stack.push(index);
+        int store = 0;
+
+        while (!stack.empty()) {
+            index = stack.pop();
+
+            if (index == 0) { // top left corner
+                //right of source
+                store = adjacentBombs(index + 1);
+                if (store == 0) {
+                    stack.push(index + 1);
+                    cell_tvs.get(index + 1).setText("");
+                    changesetting(index + 1);
+                } else {
+                    cell_tvs.get(index + 1).setText(String.valueOf(store));
+                    changesetting(index + 1);
+                }
+                //below of source
+                store = adjacentBombs(index + 8);
+                if (store == 0) {
+                    stack.push(index + 8);
+                    cell_tvs.get(index + 8).setText("");
+                    changesetting(index + 8);
+                } else {
+                    cell_tvs.get(index + 8).setText(String.valueOf(store));
+                    changesetting(index + 8);
+                }
+                //belowright of source
+                store = adjacentBombs(index + 9);
+                if (store == 0) {
+                    stack.push(index + 9);
+                    cell_tvs.get(index + 9).setText("");
+                    changesetting(index + 9);
+                } else {
+                    cell_tvs.get(index + 9).setText(String.valueOf(store));
+                    changesetting(index + 9);
+                }
+                continue;
+
+            } if (index == 7) { // top right corner
+                //left of source
+                store = adjacentBombs(index - 1);
+                if (store == 0) {
+                    stack.push(index - 1);
+                    cell_tvs.get(index - 1).setText("");
+                    changesetting(index - 1);
+                } else {
+                    cell_tvs.get(index - 1).setText(String.valueOf(store));
+                    changesetting(index - 1);
+                }
+                //below of source
+                store = adjacentBombs(index + 8);
+                if (store == 0) {
+                    stack.push(index + 8);
+                    cell_tvs.get(index + 8).setText("");
+                    changesetting(index + 8);
+                } else {
+                    cell_tvs.get(index + 8).setText(String.valueOf(store));
+                    changesetting(index + 8);
+                }
+                //belowleft of source
+                store = adjacentBombs(index + 7);
+                if (store == 0) {
+                    stack.push(index + 7);
+                    cell_tvs.get(index + 7).setText("");
+                    changesetting(index + 7);
+                } else {
+                    cell_tvs.get(index + 7).setText(String.valueOf(store));
+                    changesetting(index + 7);
+                }
+                continue;
+
+            } else if (index == 72) { // bottom left corner
+                //top of source
+                store = adjacentBombs(index - 8);
+                if (store == 0) {
+                    stack.push(index - 8);
+                    cell_tvs.get(index - 8).setText("");
+                    changesetting(index - 8);
+                } else {
+                    cell_tvs.get(index - 8).setText(String.valueOf(store));
+                    changesetting(index - 8);
+                }
+                //topright of source
+                store = adjacentBombs(index - 7);
+                if (store == 0) {
+                    stack.push(index - 7);
+                    cell_tvs.get(index - 7).setText("");
+                    changesetting(index - 7);
+                } else {
+                    cell_tvs.get(index - 7).setText(String.valueOf(store));
+                    changesetting(index - 7);
+                }
+                //right of source
+                store = adjacentBombs(index + 1);
+                if (store == 0) {
+                    stack.push(index + 1);
+                    cell_tvs.get(index + 1).setText("");
+                    changesetting(index + 1);
+                } else {
+                    cell_tvs.get(index + 1).setText(String.valueOf(store));
+                    changesetting(index + 1);
+                }
+                continue;
+
+            } else if (index == 79) { // bottom right corner
+                //top of source
+                store = adjacentBombs(index - 8);
+                if (store == 0) {
+                    stack.push(index - 8);
+                    cell_tvs.get(index - 8).setText("");
+                    changesetting(index - 8);
+                } else {
+                    cell_tvs.get(index - 8).setText(String.valueOf(store));
+                    changesetting(index - 8);
+                }
+                //topleft of source
+                store = adjacentBombs(index - 9);
+                if (store == 0) {
+                    stack.push(index - 9);
+                    cell_tvs.get(index - 9).setText("");
+                    changesetting(index - 9);
+                } else {
+                    cell_tvs.get(index - 9).setText(String.valueOf(store));
+                    changesetting(index - 9);
+                }
+                //left of source
+                store = adjacentBombs(index - 1);
+                if (store == 0) {
+                    stack.push(index - 1);
+                    cell_tvs.get(index - 1).setText("");
+                    changesetting(index - 1);
+                } else {
+                    cell_tvs.get(index - 1).setText(String.valueOf(store));
+                    changesetting(index - 1);
+                }
+                continue;
+
+            } else if (index < 7 && index > 0) { // top row
+                //left of source
+                store = adjacentBombs(index - 1);
+                if (store == 0) {
+                    stack.push(index - 1);
+                    cell_tvs.get(index - 1).setText("");
+                    changesetting(index - 1);
+                } else {
+                    cell_tvs.get(index - 1).setText(String.valueOf(store));
+                    changesetting(index - 1);
+                }
+                //right of source
+                store = adjacentBombs(index + 1);
+                if (store == 0) {
+                    stack.push(index + 1);
+                    cell_tvs.get(index + 1).setText("");
+                    changesetting(index + 1);
+                } else {
+                    cell_tvs.get(index + 1).setText(String.valueOf(store));
+                    changesetting(index + 1);
+                }
+                //below of source
+                store = adjacentBombs(index + 8);
+                if (store == 0) {
+                    stack.push(index + 8);
+                    cell_tvs.get(index + 8).setText("");
+                    changesetting(index + 8);
+                } else {
+                    cell_tvs.get(index + 8).setText(String.valueOf(store));
+                    changesetting(index + 8);
+                }
+                //belowleft of source
+                store = adjacentBombs(index + 7);
+                if (store == 0) {
+                    stack.push(index + 7);
+                    cell_tvs.get(index + 7).setText("");
+                    changesetting(index + 7);
+                } else {
+                    cell_tvs.get(index + 7).setText(String.valueOf(store));
+                    changesetting(index + 7);
+                }
+                //belowright of source
+                store = adjacentBombs(index + 9);
+                if (store == 0) {
+                    stack.push(index + 9);
+                    cell_tvs.get(index + 9).setText("");
+                    changesetting(index + 9);
+                } else {
+                    cell_tvs.get(index + 9).setText(String.valueOf(store));
+                    changesetting(index + 9);
+                }
+                continue;
+
+            } else if (index > 72 && index < 79) { // bottom row
+                //left of source
+                store = adjacentBombs(index - 1);
+                if (store == 0) {
+                    stack.push(index - 1);
+                    cell_tvs.get(index - 1).setText("");
+                    changesetting(index - 1);
+                } else {
+                    cell_tvs.get(index - 1).setText(String.valueOf(store));
+                    changesetting(index - 1);
+                }
+                //right of source
+                store = adjacentBombs(index + 1);
+                if (store == 0) {
+                    stack.push(index + 1);
+                    cell_tvs.get(index + 1).setText("");
+                    changesetting(index + 1);
+                } else {
+                    cell_tvs.get(index + 1).setText(String.valueOf(store));
+                    changesetting(index + 1);
+                }
+                //top of source
+                store = adjacentBombs(index - 8);
+                if (store == 0) {
+                    stack.push(index - 8);
+                    cell_tvs.get(index - 8).setText("");
+                    changesetting(index - 8);
+                } else {
+                    cell_tvs.get(index - 8).setText(String.valueOf(store));
+                    changesetting(index - 8);
+                }
+                //topleft of source
+                store = adjacentBombs(index - 9);
+                if (store == 0) {
+                    stack.push(index - 9);
+                    cell_tvs.get(index - 9).setText("");
+                    changesetting(index - 9);
+                } else {
+                    cell_tvs.get(index - 9).setText(String.valueOf(store));
+                    changesetting(index - 9);
+                }
+                //topright of source
+                store = adjacentBombs(index - 7);
+                if (store == 0) {
+                    stack.push(index - 7);
+                    cell_tvs.get(index - 7).setText("");
+                    changesetting(index - 7);
+                } else {
+                    cell_tvs.get(index - 7).setText(String.valueOf(store));
+                    changesetting(index - 7);
+                }
+                continue;
+
+            } else if (index % 8 == 0 && index != 0 && index != 72) { // on the left
+                //right of source
+                store = adjacentBombs(index + 1);
+                if (store == 0) {
+                    stack.push(index + 1);
+                    cell_tvs.get(index + 1).setText("");
+                    changesetting(index + 1);
+                } else {
+                    cell_tvs.get(index + 1).setText(String.valueOf(store));
+                    changesetting(index + 1);
+                }
+                //below of source
+                store = adjacentBombs(index + 8);
+                if (store == 0) {
+                    stack.push(index + 8);
+                    cell_tvs.get(index + 8).setText("");
+                    changesetting(index + 8);
+                } else {
+                    cell_tvs.get(index + 8).setText(String.valueOf(store));
+                    changesetting(index + 8);
+                }
+                //belowright of source
+                store = adjacentBombs(index + 9);
+                if (store == 0) {
+                    stack.push(index + 9);
+                    cell_tvs.get(index + 9).setText("");
+                    changesetting(index + 9);
+                } else {
+                    cell_tvs.get(index + 9).setText(String.valueOf(store));
+                    changesetting(index + 9);
+                }
+                //top of source
+                store = adjacentBombs(index - 8);
+                if (store == 0) {
+                    stack.push(index - 8);
+                    cell_tvs.get(index - 8).setText("");
+                    changesetting(index - 8);
+                } else {
+                    cell_tvs.get(index - 8).setText(String.valueOf(store));
+                    changesetting(index - 8);
+                }
+                //topright of source
+                store = adjacentBombs(index - 7);
+                if (store == 0) {
+                    stack.push(index - 7);
+                    cell_tvs.get(index - 7).setText("");
+                    changesetting(index - 7);
+                } else {
+                    cell_tvs.get(index - 7).setText(String.valueOf(store));
+                    changesetting(index - 7);
+                }
+                continue;
+
+            } else if (index % 8 == 7 && index != 7 && index != 79) { // on the right
+                //left of source
+                store = adjacentBombs(index - 1);
+                if (store == 0) {
+                    stack.push(index - 1);
+                    cell_tvs.get(index - 1).setText("");
+                    changesetting(index - 1);
+                } else {
+                    cell_tvs.get(index - 1).setText(String.valueOf(store));
+                    changesetting(index - 1);
+                }
+                //below of source
+                store = adjacentBombs(index + 8);
+                if (store == 0) {
+                    stack.push(index + 8);
+                    cell_tvs.get(index + 8).setText("");
+                    changesetting(index + 8);
+                } else {
+                    cell_tvs.get(index + 8).setText(String.valueOf(store));
+                    changesetting(index + 8);
+                }
+                //belowleft of source
+                store = adjacentBombs(index + 7);
+                if (store == 0) {
+                    stack.push(index + 7);
+                    cell_tvs.get(index + 7).setText("");
+                    changesetting(index + 7);
+                } else {
+                    cell_tvs.get(index + 7).setText(String.valueOf(store));
+                    changesetting(index + 7);
+                }
+                //top of source
+                store = adjacentBombs(index - 8);
+                if (store == 0) {
+                    stack.push(index - 8);
+                    cell_tvs.get(index - 8).setText("");
+                    changesetting(index - 8);
+                } else {
+                    cell_tvs.get(index - 8).setText(String.valueOf(store));
+                    changesetting(index - 8);
+                }
+                //topleft of source
+                store = adjacentBombs(index - 9);
+                if (store == 0) {
+                    stack.push(index - 9);
+                    cell_tvs.get(index - 9).setText("");
+                    changesetting(index - 9);
+                } else {
+                    cell_tvs.get(index - 9).setText(String.valueOf(store));
+                    changesetting(index - 9);
+                }
+                continue;
+
+            } else {
+                //left of source
+                store = adjacentBombs(index - 1);
+                if (store == 0) {
+                    stack.push(index - 1);
+                    cell_tvs.get(index - 1).setText("");
+                    changesetting(index - 1);
+                } else {
+                    cell_tvs.get(index - 1).setText(String.valueOf(store));
+                    changesetting(index - 1);
+                }
+                //right of source
+                store = adjacentBombs(index + 1);
+                if (store == 0) {
+                    stack.push(index + 1);
+                    cell_tvs.get(index + 1).setText("");
+                    changesetting(index + 1);
+                } else {
+                    cell_tvs.get(index + 1).setText(String.valueOf(store));
+                    changesetting(index + 1);
+                }
+                //below of source
+                store = adjacentBombs(index + 8);
+                if (store == 0) {
+                    stack.push(index + 8);
+                    cell_tvs.get(index + 8).setText("");
+                    changesetting(index + 8);
+                } else {
+                    cell_tvs.get(index + 8).setText(String.valueOf(store));
+                    changesetting(index + 8);
+                }
+                //belowleft of source
+                store = adjacentBombs(index + 7);
+                if (store == 0) {
+                    stack.push(index + 7);
+                    cell_tvs.get(index + 7).setText("");
+                    changesetting(index + 7);
+                } else {
+                    cell_tvs.get(index + 7).setText(String.valueOf(store));
+                    changesetting(index + 7);
+                }
+                //belowright of source
+                store = adjacentBombs(index + 9);
+                if (store == 0) {
+                    stack.push(index + 9);
+                    cell_tvs.get(index + 9).setText("");
+                    changesetting(index + 9);
+                } else {
+                    cell_tvs.get(index + 9).setText(String.valueOf(store));
+                    changesetting(index + 9);
+                }
+                //top of source
+                store = adjacentBombs(index - 8);
+                if (store == 0) {
+                    stack.push(index - 8);
+                    cell_tvs.get(index - 8).setText("");
+                    changesetting(index - 8);
+                } else {
+                    cell_tvs.get(index - 8).setText(String.valueOf(store));
+                    changesetting(index - 8);
+                }
+                //topleft of source
+                store = adjacentBombs(index - 9);
+                if (store == 0) {
+                    stack.push(index - 9);
+                    cell_tvs.get(index - 9).setText("");
+                    changesetting(index - 9);
+                } else {
+                    cell_tvs.get(index - 9).setText(String.valueOf(store));
+                    changesetting(index - 9);
+                }
+                //topright of source
+                store = adjacentBombs(index - 7);
+                if (store == 0) {
+                    stack.push(index - 7);
+                    cell_tvs.get(index - 7).setText("");
+                    changesetting(index - 7);
+                } else {
+                    cell_tvs.get(index - 7).setText(String.valueOf(store));
+                    changesetting(index - 7);
+                }
+            }
+
+        }
+    }
 
 
 //    void addEdge(int v,int w) {
